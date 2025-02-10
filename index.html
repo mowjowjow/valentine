@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Valentine</title>
+  <style>
+    /* General Styles */
+    body {
+      height: 100%;
+      width: 100%;
+      background: #080f1a;
+      overflow: hidden;
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+    }
+
+    /* Text Container */
+    .text-container {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 100;
+    }
+
+    .text-container h1 {
+      color: #d52d58;
+      font-size: 3rem;
+      text-shadow: 0px 0px 10px rgba(245, 148, 184, 0.8);
+      margin: 0;
+    }
+
+    /* Music Container */
+    .music-container {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      z-index: 100;
+    }
+
+    .music-container iframe {
+      border-radius: 12px;
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Main Container */
+    .container {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* Glass Styles */
+    .glass {
+      height: 350px;
+      width: 200px;
+      background: #122139;
+      border-radius: 300px 300px 0px 0px;
+    }
+
+    .glass:before {
+      content: "";
+      height: 10px;
+      width: 10px;
+      transform-origin: center;
+      border: 10px solid #122139;
+      border-radius: 100%;
+      position: absolute;
+      left: 87px;
+      top: -25px;
+    }
+
+    .glass:after {
+      content: "";
+      position: absolute;
+      height: 15px;
+      width: 250px;
+      background: #a52a2a;
+      top: 100%;
+      left: -13%;
+    }
+
+    /* Shine Effect */
+    .shine {
+      width: 12px;
+      height: 140px;
+      background: white;
+      opacity: 0.2;
+      position: absolute;
+      left: 85%;
+      top: 80px;
+      border-radius: 100px;
+      z-index: 10;
+    }
+
+    .shine:before {
+      content: "";
+      width: 12px;
+      height: 20px;
+      position: absolute;
+      background: white;
+      top: 160px;
+      border-radius: 100px;
+    }
+
+    /* Petals Styles */
+    .petals > div {
+      position: absolute;
+      background: #d52d58;
+      width: 45px;
+      height: 80px;
+      top: 55px;
+      transition: all 0.5s ease-out;
+    }
+
+    .petals > div:nth-child(1) {
+      border-radius: 15px;
+      box-shadow: 0px 0px 30px #f594b8;
+      left: 80px;
+      top: 60px;
+      background: #d52d58;
+    }
+
+    .petals > div:nth-child(2),
+    .petals > div:nth-child(4),
+    .petals > div:nth-child(6) {
+      background: #b81b43;
+      left: 60px;
+      border-radius: 0px 30px 0px 30px;
+      transform-origin: bottom right;
+    }
+
+    .petals > div:nth-child(3),
+    .petals > div:nth-child(5),
+    .petals > div:nth-child(7) {
+      background: #b81b43;
+      left: 100px;
+      border-radius: 30px 0px 30px 0px;
+      transform-origin: bottom left;
+    }
+
+    .petals > div:nth-child(2) {
+      z-index: 5;
+      background: #ab1a3f;
+      top: 75px;
+      height: 70px;
+      box-shadow: 0px 0px 50px rgba(245, 148, 184, 0.5);
+      animation: bloom2 3s ease-in-out;
+      animation-fill-mode: forwards;
+    }
+
+    .petals > div:nth-child(3) {
+      z-index: 4;
+      background: #ab1a3f;
+      top: 75px;
+      height: 70px;
+      box-shadow: 0px 0px 50px rgba(245, 148, 184, 0.5);
+      animation: bloom3 3s ease-in-out, glowing 2.5s ease-in-out infinite;
+      animation-fill-mode: forwards;
+    }
+
+    .petals > div:nth-child(4) {
+      z-index: 3;
+      background: #b81b43;
+      top: 70px;
+      height: 75px;
+      box-shadow: 0px 0px 50px rgba(245, 148, 184, 0.5);
+      animation: bloom4 3s ease-in-out, glowing 2.5s ease-in-out infinite;
+      animation-fill-mode: forwards;
+    }
+
+    .petals > div:nth-child(5) {
+      z-index: 2;
+      background: #b81b43;
+      top: 70px;
+      height: 75px;
+      box-shadow: 0px 0px 50px rgba(245, 148, 184, 0.5);
+      animation: bloom5 3s ease-in-out, glowing 2.5s ease-in-out infinite;
+      animation-fill-mode: forwards;
+    }
+
+    .petals > div:nth-child(6) {
+      z-index: 1;
+      background: #c9204b;
+      top: 65px;
+      height: 70px;
+      box-shadow: 0px 0px 50px rgba(245, 148, 184, 0.3);
+      animation: bloom6 3s ease-in-out, glowing 2.5s ease-in-out infinite;
+      animation-fill-mode: forwards;
+    }
+
+    .petals > div:nth-child(7) {
+      z-index: 0;
+      background: #c9204b;
+      top: 65px;
+      height: 70px;
+      box-shadow: 0px 0px 50px rgba(245, 148, 184, 0.3);
+      animation: bloom7 3s ease-in-out, glowing 2.5s ease-in-out infinite;
+      animation-fill-mode: forwards;
+    }
+
+    /* Dead Petals Styles */
+    .deadPetals > div {
+      position: absolute;
+      background: #d52d58;
+      width: 20px;
+      height: 15px;
+      top: 120px;
+      border-radius: 0px 30px 0px 30px;
+      box-shadow: 0px 0px 30px rgba(245, 148, 184, 0.5);
+      transition: all 0.5s ease-out;
+    }
+
+    .deadPetals > div:nth-child(1) {
+      left: 67px;
+      transform: rotate(-30deg);
+      animation: falling 20s 4s ease-in-out infinite;
+    }
+
+    .deadPetals > div:nth-child(2) {
+      left: 104px;
+      transform: rotate(-30deg);
+      animation: falling 20s 8s ease-in-out infinite;
+    }
+
+    .deadPetals > div:nth-child(3) {
+      left: 91px;
+      transform: rotate(-30deg);
+      animation: falling 20s 12s ease-in-out infinite;
+    }
+
+    .deadPetals > div:nth-child(4) {
+      left: 69px;
+      transform: rotate(-30deg);
+      animation: falling 20s 16s ease-in-out infinite;
+    }
+
+    /* Leaves Styles */
+    .leaves > div:nth-last-child(1) {
+      position: absolute;
+      width: 55px;
+      height: 30px;
+      background: #338f37;
+      top: 120px;
+      left: 75px;
+      border-radius: 100px;
+    }
+
+    .leaves > div:nth-child(1) {
+      position: absolute;
+      width: 6px;
+      height: 210px;
+      background: #054c05;
+      top: 95px;
+      left: 100px;
+      border-radius: 0 0 100px 100px;
+    }
+
+    .leaves > div:nth-child(2) {
+      position: absolute;
+      width: 30px;
+      height: 50px;
+      top: 53px;
+      border-radius: 5px 40px 20px 40px;
+      background: #054c05;
+      transform-origin: bottom;
+      transform: rotate(-30deg);
+      top: 180px;
+      left: 80px;
+      box-shadow: inset 5px 5px #066406;
+    }
+
+    .leaves > div:nth-child(3) {
+      position: absolute;
+      width: 30px;
+      height: 50px;
+      top: 53px;
+      border-radius: 40px 5px 40px 20px;
+      background: #054c05;
+      transform-origin: bottom;
+      transform: rotate(30deg);
+      top: 150px;
+      left: 95px;
+      box-shadow: inset -5px 5px #066406;
+    }
+
+    /* Thorns Styles */
+    .thorns > div {
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: 140px;
+    }
+
+    .thorns > div:nth-child(odd) {
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 5px solid #054c05;
+      left: 105px;
+    }
+
+    .thorns > div:nth-child(even) {
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-right: 5px solid #054c05;
+      left: 95px;
+    }
+
+    .thorns > div:nth-child(1) {
+      top: 200px;
+    }
+
+    .thorns > div:nth-child(2) {
+      top: 170px;
+    }
+
+    .thorns > div:nth-child(4) {
+      top: 230px;
+    }
+
+    /* Animations */
+    @keyframes bloom2 {
+      50% {
+        transform: rotate(-90deg);
+        top: 200px;
+        left: 100px;
+      }
+      100% {
+        transform: rotate(-60deg);
+        top: 252px;
+        left: 50px;
+        background: #71122a;
+        box-shadow: 0px 0px 0px rgba(245, 148, 184, 0);
+      }
+    }
+
+    @keyframes bloom3 {
+      100% {
+        transform: rotate(45deg);
+      }
+    }
+
+    @keyframes bloom4 {
+      100% {
+        transform: rotate(-20deg);
+      }
+    }
+
+    @keyframes bloom5 {
+      100% {
+        transform: rotate(20deg);
+      }
+    }
+
+    @keyframes bloom6 {
+      100% {
+        transform: rotate(-5deg);
+      }
+    }
+
+    @keyframes bloom7 {
+      100% {
+        transform: rotate(5deg);
+      }
+    }
+
+    @keyframes glowing {
+      50% {
+        background: #d7365f;
+        box-shadow: 0px 0px 60px #f594b8;
+      }
+    }
+
+    @keyframes falling {
+      20% {
+        top: 335px;
+        background: #9d193b;
+        box-shadow: 0px 0px 0px rgba(245, 148, 184, 0);
+      }
+      100% {
+        top: 335px;
+        opacity: 0;
+      }
+    }
+
+    /* Image Containers */
+    .image-container {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 300px;
+      height: 300px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .image-container.left {
+      left: 20px;
+    }
+
+    .image-container.right {
+      right: 20px;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .image-container img:hover {
+      transform: scale(1.1);
+      box-shadow: 0px 0px 20px rgba(245, 148, 184, 0.8);
+    }
+
+    /* Enlarged Image Overlay */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .overlay img {
+      max-width: 80%;
+      max-height: 80%;
+      border-radius: 10px;
+      box-shadow: 0px 0px 20px rgba(245, 148, 184, 0.8);
+    }
+
+    .overlay .text {
+      position: absolute;
+      bottom: 20px;
+      color: white;
+      font-size: 1.5rem;
+      text-align: center;
+      text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8);
+    }
+  </style>
+</head>
+<body>
+  <!-- Text Container -->
+  <div class="text-container">
+    <h1>Happy Valentine's Day Love!</h1>
+    <h1>I Love You!</h1>
+  </div>
+
+  <!-- Spotify Music Embed -->
+  <div class="music-container">
+    <iframe
+      src="https://open.spotify.com/embed/track/1EyvonxK8OGHRV4WDRdArc?utm_source=generator&theme=0"
+      width="100%"
+      height="152"
+      frameBorder="0"
+      allowfullscreen=""
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+  </div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <div class="glass">
+      <div class="shine"></div>
+    </div>
+    <div class="thorns">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="leaves">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="petals">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="deadPetals">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+
+  <!-- Image Containers -->
+  <div class="image-container left">
+    <img src="received_248764207628304.jpeg" alt="Left Image 1" data-text="Text for Image 1">
+    <img src="IMG_20230827_202713_0292.jpg" alt="Left Image 2" data-text="Text for Image 2">
+    <img src="IMG_20240107_181945_0588.jpg" alt="Left Image 3" data-text="Text for Image 3">
+    <img src="IMG_20240209_095822_0952.jpg" alt="Left Image 4" data-text="Text for Image 4">
+  </div>
+  <div class="image-container right">
+    <img src="IMG_20240320_182751_0730.jpg" alt="Right Image 1" data-text="Text for Image 5">
+    <img src="IMG_20240320_182818_0995.jpg" alt="Right Image 2" data-text="Text for Image 6">
+    <img src="IMG_20240408_121848_0963.jpg" alt="Right Image 3" data-text="Text for Image 7">
+    <img src="IMG_20240621_002500_0452.jpg" alt="Right Image 4" data-text="Text for Image 8">
+  </div>
+
+  <!-- Overlay for Enlarged Image -->
+  <div class="overlay" id="overlay">
+    <img id="enlarged-img" src="" alt="Enlarged Image">
+    <div class="text" id="overlay-text"></div>
+  </div>
+
+  <script>
+    // JavaScript to handle image enlargement and text display
+    const images = document.querySelectorAll('.image-container img');
+    const overlay = document.getElementById('overlay');
+    const enlargedImg = document.getElementById('enlarged-img');
+    const overlayText = document.getElementById('overlay-text');
+
+    images.forEach(img => {
+      img.addEventListener('click', () => {
+        enlargedImg.src = img.src;
+        overlayText.textContent = img.getAttribute('data-text');
+        overlay.style.display = 'flex';
+      });
+    });
+
+    overlay.addEventListener('click', () => {
+      overlay.style.display = 'none';
+    });
+  </script>
+</body>
+</html>
